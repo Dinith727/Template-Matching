@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
-img = cv.imread('Src/1.jpg',0)
+img = cv.imread('Src/5.jpg',0)
 img2 = img.copy()
 template = cv.imread('Src/2D_Simple_Shapes-01.jpg',0)
 w, h = template.shape[::-1]
@@ -26,3 +26,5 @@ for meth in methods:
     plt.subplot(122),plt.imshow(img,cmap = 'gray')
     plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
     plt.suptitle(meth)
+
+    plt.show()
