@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
-img1 = cv.imread('Src/4.jpg',0)
-img2 = cv.imread('Src/4.1.jpg',0)
+img1 = cv.imread('Src/5.jpg',0)
+img2 = cv.imread('Src/5.jpg',0)
 # ret, thresh = cv.threshold(img1, 127, 255,0)
 # ret, thresh2 = cv.threshold(img2, 127, 255,0)
 
@@ -25,6 +25,7 @@ contours2,hierarchy = cv.findContours(thresh2, 2,1)
 cnt2 = contours2[0]
 
 ret = cv.matchShapes(cnt1,cnt2,1,0.0)
+res = cv.matchTemplate(thresh,thresh2,cv.TM_CCOEFF_NORMED)
 #ret2 = cv.matchShapes(cnt3,cnt3,1,0.0)
 # ret3 = cv.matchShapes(img1,img2,1,0.0)
 # print('cnt1')
@@ -36,6 +37,8 @@ print( cnt3 )
 print( cnt4 )
 print( 'ret' )
 print( ret )
+print( 'res' )
+print( res )
 # print( 'ret2' )
 # print( ret2 )
 # if ret != 0.00000:
