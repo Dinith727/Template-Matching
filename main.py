@@ -1,21 +1,35 @@
-import cv2 as cv
+import cv2
 import numpy as np
-from matplotlib import pyplot as plt
-img_rgb = cv.imread('Src/2D_Simple_Shapes-01.jpg')
-img_gray = cv.cvtColor(img_rgb, cv.COLOR_BGR2GRAY)
-template = cv.imread('Src/5.jpg',0)
-template_gray = cv.cvtColor(template, cv.COLOR_BGR2GRAY)
-w, h = template.shape[::-1]
-res = cv.matchTemplate(img_gray,template,cv.TM_CCOEFF_NORMED)
-threshold = 0.9
-loc = np.where( res >= threshold)
-for pt in zip(*loc[::-1]):
-    cv.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
-cv.imwrite('res.png',img_rgb)
-cv.imshow('res1.png',img_rgb)
 
-cv.waitKey(0)
+img = cv2.imread('Src/4.jpg')
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+img_gaussian = cv2.GaussianBlur(gray,(3,3),0)
 
-ret = cv.matchShapes(img_rgb, template_gray, 1, 0.0)
-print( ret )
-print( 'ret' )
+#canny
+img_canny = cv2.Canny(img,100,200)
+
+#sobel
+img_sobelx = cv2.Sobel(img_gaussian,cv2.CV_8U,1,0,ksize=5)
+img_sobely = cv2.Sobel(img_gaussian,cv2.CV_8U,0,1,ksize=5)
+img_sobel = img_sobelx + img_sobely
+
+
+#prewitt
+kernelx = np.array([[1,1,1],[0,0,0],[-1,-1,-1]])
+kernely = np.array([[-1,0,1],[-1,0,1],[-1,0,1]])
+img_prewittx = cv2.filter2D(img_gaussian, -1, kernelx)
+img_prewitty = cv2.filter2D(img_gaussian, -1, kernely)
+
+
+cv2.imshow("Original Image", img)
+cv2.imshow("Canny", img_canny)
+cv2.imshow("Sobel X", img_sobelx)
+cv2.imshow("Sobel Y", img_sobely)
+cv2.imshow("Sobel", img_sobel)
+cv2.imshow("Prewitt X", img_prewittx)
+cv2.imshow("Prewitt Y", img_prewitty)
+cv2.imshow("Prewitt", img_prewittx + img_prewitty)
+
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
